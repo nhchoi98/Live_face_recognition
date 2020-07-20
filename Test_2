@@ -1,0 +1,122 @@
+# 사진내에서 얼굴을 검출해내는 CODE + 영상 계속 따오기 .
+# detection_mode = 2
+import cv2
+import asyncio
+import io
+import glob
+import os
+import sys
+import time
+import uuid
+import requests
+from urllib.parse import urlparse
+from io import BytesIO
+from PIL import Image, ImageDraw
+from azure.cognitiveservices.vision.face import FaceClient
+from msrest.authentication import CognitiveServicesCredentials
+from azure.cognitiveservices.vision.face.models import TrainingStatusType, Person, SnapshotObjectType, OperationStatusType
+
+#1. Make string related with KEY, ENDPOINT
+# 이건 건들지 마시오!!!
+KEY = os.environ['FACE_SUBSCRIPTION_KEY']
+ENDPOINT = os.environ['FACE_ENDPOINT']
+capture = cv2.VideoCapture('test.mp4')
+count = 0
+# capture라는 frame 객체를 생성함
+
+#2. Make class (face_client)
+face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
+
+#single_face_image = 내가 찾고자 하는 사진 Directory가 들어가야함.
+single_face_image_path = "C:/Users/CNH/PycharmProjects/untitled/image/123.jpg"
+single_image_name = os.path.basename(single_face_image_path)
+image_name_1 = open(single_face_image_path, 'rb')
+detected_faces = face_client.face.detect_with_stream(image=image_name_1, return_face_id=True, recognition_model='recognition_02')
+if not detected_faces:
+    raise Exception('No face detected from image {}'.format(single_image_name))
+
+# Display the detected face ID in the first single-face image.
+# Face IDs are used for comparison to faces (their IDs) detected in other images.
+print('Detected face ID from', single_image_name, ':')
+for face in detected_faces: print (face.face_id)
+
+# 해당 이미지에서 검출된 얼굴들이 모두 저장됨. (face라는 객체에 face_id라는 string 변수가 잇는듯. detected_face = list )
+
+# Save this ID to use in Find Similar
+first_image_face_ID = detected_faces[0].face_id
+
+# 여기서 부터는 유사얼굴 찾기 프로그램
+# 1. 동영상이 재생되는 동안 계속 해당 프레임을 저장함
+# 2. 동일인 검출되면, list의 형태로 시간과 그 face id, 사진을 저장함. (검출되는 사진들은 계속 다른 FACE ID 부여받는다)
+
+#여기는 파일로부터 연속적으로 비교하는걸 찾아줘야함.
+while (capture.isOpened):
+    ret, frame = capture.read()
+    if ret == False:
+        break
+    cv2.imshow("VideoFrame", frame)
+    key = cv2.waitKey(33)  # 1) & 0xFF
+    if key == 27:
+        break
+    elif key == 26:  # 숫자 0
+        cv2.IMREAD_UNCHANGED
+        name = "C:/Users/CNH/PycharmProjects/untitled/image" + str(count) + ".png"
+        cv2.imwrite(name, frame)
+        multi_face_image_path = name
+        multi_image_name = os.path.basename(multi_face_image_path)
+        image_name_2 = open(multi_face_image_path, 'rb')
+        detected_faces2 = face_client.face.detect_with_stream(image=image_name_2, return_face_id=True,
+                                                              recognition_model='recognition_02')
+        if detected_faces2:
+            # Display the detected face ID in the first single-face image.
+            # Face IDs are used for comparison to faces (their IDs) detected in other images.
+            print('Detected face ID from', multi_image_name, ':')
+            for face in detected_faces2: print(face.face_id)
+
+            # Search through faces detected in group image for the single face from first image.
+            # First, create a list of the face IDs found in the second image.
+            # second_image_face_IDs =  다수의 ID를 LIST의 형태로 받음. detected_face list에서 face_id 리턴받음세
+            second_image_face_IDs = list(map(lambda x: x.face_id, detected_faces2))
+            # Next, find similar face IDs like the one detected in the first image.
+            # 여기서 부터 문제가 발생합니다.. (인식되는 얼굴 없으면 이거 진행 안되게 해야됨.)
+            similar_faces = face_client.face.find_similar(face_id=first_image_face_ID, face_ids=second_image_face_IDs)
+
+            for i in similar_faces:
+                print('Similar faces found in', multi_image_name + ':')
+                for face in similar_faces:
+                    first_image_face_ID = face.face_id
+                    # The similar face IDs of the single face image and the group image do not need to match,
+                    # they are only used for identification purposes in each image.
+                    # The similar faces are matched using the Cognitive Services algorithm in find_similar().
+                    face_info = next(x for x in detected_faces2 if x.face_id == first_image_face_ID)
+                    if face_info:
+                        print('  Face ID: ', first_image_face_ID)
+                        print('  Face rectangle:')
+                        print('    Left: ', str(face_info.face_rectangle.left))
+                        print('    Top: ', str(face_info.face_rectangle.top))
+                        print('    Width: ', str(face_info.face_rectangle.width))
+                        print('    Height: ', str(face_info.face_rectangle.height))
+
+                        y = face_info.face_rectangle.left
+                        x = face_info.face_rectangle.top
+                        w = face_info.face_rectangle.width
+                        h = face_info.face_rectangle.height
+                        print(similar_faces[0].confidence)
+
+                    img = cv2.imread(multi_face_image_path)
+                    img = img[x - 10:x + w + 10, y - 10:y + h + 10]
+                    cv2.imshow("linear", img)
+                    cv2.waitKey(0)
+                    count += 1
+
+
+            # 해당부분을 사진으로 잘라서 이 사람 찾았다는걸 보여줘야하나? 아니면 동영상으로 띄워줘야 하나?
+            # cv2.destroyAllWindows()
+
+        elif not detected_faces2:
+            print('No face detected from image {}'.format(multi_image_name))
+
+capture.release()
+cv2.destroyAllWindows
+
+# 이코드는 특정 키 누르면 특정인물이 있는지 그 사진에서 찾아주는 프로그램임 
