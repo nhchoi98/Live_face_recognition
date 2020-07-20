@@ -1,11 +1,26 @@
+#특정 프레임을 키를 누르면 캡쳐하는 프로그램 
+
 import cv2
-
-cap = cv2.VideoCapture('test.mp4')
-
-while(cap.isOpened()):
-    ret, frame = cap.read()
-    cv2.imshow('frame',frame)
-
-    if cv2.waitKey(1) & 0xFF == ord('q'):
+capture = cv2.VideoCapture('test.mp4')
+#웹 캠을 쓰고싶으면, 전달인자 = 0
+count = 0
+while (capture.isOpened):
+    ret, frame = capture.read()
+    if ret == False:
         break
-cap.release()
+    cv2.imshow("VideoFrame", frame)
+    key = cv2.waitKey(33)  # 1) & 0xFF
+    if key == 27:
+        break
+
+    elif key == 26:  # 숫자 0
+        cv2.IMREAD_UNCHANGED
+        name = "C:/Users/CNH/PycharmProjects/untitled/image"+str(count)+".png"
+        cv2.imwrite(name, frame)
+        count+=1
+
+
+capture.release()
+cv2.destroyAllWindows()
+
+
