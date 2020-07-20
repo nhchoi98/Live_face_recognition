@@ -4,6 +4,8 @@ Live_face_recognition
 
 2. 프로그램의 앞으로 개발 방향: CCTV의 영상을 지속적으로 입력받아, 사진 속 인물과 동일인이 나타나는지를 판단해주는 프로그램을 제작해야함 
 
+3. azure api 사용을 위해선 Azure SDK LIBRARY가 설치 되어있어야함 (pip install azure-storage-blob, pip install --upgrade azure-cognitiveservices-vision-face)
+
 
 <07/20>
 1. face라는 객체에, face_id라는 string 변수 member가 존재하며, 한 사진을 분석시 프로그램이 detected_face는 list의 형태로 저장하는듯함. 
