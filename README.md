@@ -1,4 +1,5 @@
 # Live_face_recognition
+# 1 to many (한 명의 사진을 통해 다수에서 판별하기.) 
 Live_face_recognition
 1. 프로그램의 목적: 사진을 입력받아 기존에 입력되있는 사진속 인물과 동일인인지를 판별한다. 
 
