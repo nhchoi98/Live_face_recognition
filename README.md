@@ -1,5 +1,5 @@
 # Live_face_recognition
-# 1 to many (한 명의 사진을 통해 다수에서 판별하기.) 
+# 다수의 사람 후보로 등록해 사진속에서 찾기 
 Live_face_recognition
 1. 프로그램의 목적: 사진을 입력받아 기존에 입력되있는 사진속 인물과 동일인인지를 판별한다. 
 
@@ -26,5 +26,13 @@ list=  [ [시간, 그 시간의 좌표, 이미지파일 경로], ]....
 
 <07/22>
 1. 다수의 후보군의 ARRAY를 만들어, 이 사람이 있는지를 프로그램이 찾게하기 . 
-(FACE LIST ? 이게 뭐지. 설명서 찾는중)
+(FACE LIST ? 이게 뭐지. 설명서 찾는중.
+
+*add_face_from_stream
+1000개의 얼굴까지 등록이 가능함. 
+얼굴 등록시 특정 얼굴만 나타나 있어야함. 
+(required:  face_list_id (to refer a particular face list, image, target face 지정가능,detection model ) 
+face_list id는 어디서 얻지? 
+
+
 
