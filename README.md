@@ -34,5 +34,6 @@ list=  [ [시간, 그 시간의 좌표, 이미지파일 경로], ]....
 (required:  face_list_id (to refer a particular face list, image, target face 지정가능,detection model ) 
 face_list id는 어디서 얻지? 
 
+*test prog의 구상: 여러명 나와잇는 사진 등록하고, face_list를 만든다음 한 장의 사진에서 전부 detect 할 수 있는지를 확인해보자. 
 
 
