@@ -32,7 +32,7 @@ list=  [ [시간, 그 시간의 좌표, 이미지파일 경로], ]....
 1000개의 얼굴까지 등록이 가능함. 
 얼굴 등록시 특정 얼굴만 나타나 있어야함. 
 (required:  face_list_id (to refer a particular face list, image, target face 지정가능,detection model ) 
-face_list id는 어디서 얻지? 
+face_list id는 어디서 얻지? --> User can define ID.
 
 *test prog의 구상: 여러명 나와잇는 사진 등록하고, face_list를 만든다음 한 장의 사진에서 전부 detect 할 수 있는지를 확인해보자. 
 
