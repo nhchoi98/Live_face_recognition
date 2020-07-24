@@ -39,4 +39,4 @@ face_list id는 어디서 얻지? --> User can define ID.
 recognition model = 'recognition_03' is recommended
 
 <07/24>
-1. 만들어진 FaceListId의 정보를 어떻게 가져오는지?
+1. 만들어진 FaceListId의 정보를 어떻게 가져오는지? --> face_list_id에 자체적으로 있으므로, similar 함수를 쓰면 알아서 프로그램이 판단해서 걸러줌.  
