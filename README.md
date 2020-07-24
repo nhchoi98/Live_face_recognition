@@ -37,3 +37,6 @@ face_list id는 어디서 얻지? --> User can define ID.
 *test prog의 구상: 여러명 나와잇는 사진 등록하고, face_list를 만든다음 한 장의 사진에서 전부 detect 할 수 있는지를 확인해보자. 
 
 recognition model = 'recognition_03' is recommended
+
+<07/24>
+1. 만들어진 FaceListId의 정보를 어떻게 가져오는지?
