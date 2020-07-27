@@ -40,3 +40,7 @@ recognition model = 'recognition_03' is recommended
 
 <07/24>
 1. 만들어진 FaceListId의 정보를 어떻게 가져오는지? --> face_list_id에 자체적으로 있으므로, similar 함수를 쓰면 알아서 프로그램이 판단해서 걸러줌.  
+
+<07/27>
+1. list에서, 웹캠을 통해 동일인물 있는지 없는지를 판단하는 코드 제작함 
+--> persisted_id에서 어떤 인물과 비슷한지를 알 수 있음 (similar_face list에 해당정보 저장되어있음) 
