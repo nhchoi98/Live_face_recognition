@@ -1,0 +1,6 @@
+KEY = os.environ['FACE_SUBSCRIPTION_KEY']
+ENDPOINT = os.environ['FACE_ENDPOINT']
+face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
+A = face_client.face_list.get(face_list_id='test_list')
+for i in range (len(A.persisted_faces)) :
+    print(A.persisted_faces[i].persisted_face_id)
