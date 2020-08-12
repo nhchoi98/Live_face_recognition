@@ -1,0 +1,13 @@
+import pandas as pd
+
+print("아무갑이나 입")
+A= input()
+#def Find_person(persisted_face_id):
+    #df1은 설정값을 읽어와야함. 안찾는 친구는 굳이 반복문 돌릴 필요 없으니까
+df1 = pd.read_csv('test_file.csv')
+df2 = df1.loc[df1['face_id'] == A]
+if(df2.empty):
+ print("우와 ")
+
+elif(df2.empty == False ):
+ print("있어요 ")
