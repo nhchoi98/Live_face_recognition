@@ -29,3 +29,4 @@ Live_face_recognition
 
 <08.12>
 1. DataFrame에서 특정 Face_id가 있는지 없는지에 따라서 기록에 넣는 함수 구현 
+2. log 남기는 함수 구현 --> log가 동일시각에 동일 사람 계속 넣는거 막는 구조체가 필요함 
