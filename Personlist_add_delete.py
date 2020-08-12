@@ -30,8 +30,9 @@ def add_person_to_list(name,directory_path):
     size = (len(face_list.persisted_faces))-1
     get_face_id = face_list.persisted_faces[size].persisted_face_id
     #데이터 추가 하는 곳 (간단하게 loc을 이용해 추가함)
-    data= {'이름': name, 'face_id': get_face_id, '파일경로': directory_path}
-    df2 = df1.append(data,ignore_index=True)
+    temp = df(data= {'name': [name], 'face_id': [get_face_id], 'path': [directory_path]}, columns=['name','face_id','path'])
+
+    df2 = df1.append(temp,ignore_index=True)
     print(df2)
     df2.to_csv("C:/Users/CNH/PycharmProjects/untitled1/test_file.csv", index= False)
 
