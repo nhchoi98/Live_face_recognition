@@ -26,3 +26,6 @@ Live_face_recognition
 <08.07>
 1. API 호출 횟수줄이고, 처리속도 개선한 Ver 0.4 제작. 
 2. API와 연동하여 DATAFRAME에 사람 추가/삭제하는 함수 제작
+
+<08.12>
+1. DataFrame에서 특정 Face_id가 있는지 없는지에 따라서 기록에 넣는 함수 구현 
