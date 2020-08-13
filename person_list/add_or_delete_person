@@ -13,22 +13,21 @@ def add_person_to_list(name,directory_path):
     #이건 기존 파일에 뭐있는지 확인하기 위한 용도
     print(df1)
     #API에 접근하기 위해 객체를 생성함. 이 객체는 프로그램 켜지면 한 번 생성하고 안없어지게 해야함! 이건 함수 작동하는거 보여주려고 넣어놓음.
-    df2= df(data={"이름": ["손유석"]})
     KEY = os.environ['FACE_SUBSCRIPTION_KEY']
     ENDPOINT = os.environ['FACE_ENDPOINT']
     face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
-
     #주의! 사진은 반드시 한명만 나와있는거로만 해야함 이거에선.
     image_path = directory_path
     image_open = open(image_path, 'rb')
     face_client.face_list.add_face_from_stream(face_list_id='test_list',image=image_open)
-
     face_list = face_client.face_list.get(face_list_id='test_list')
     size = (len(face_list.persisted_faces))-1
     get_face_id = face_list.persisted_faces[size].persisted_face_id
     #데이터 추가 하는 곳 (간단하게 loc을 이용해 추가함)
     data= {'이름': name, 'face_id': get_face_id, '파일경로': directory_path}
     df2 = df1.append(data,ignore_index=True)
+    temp = df(data= {'name': [name], 'face_id': [get_face_id], 'path': [directory_path]}, columns=['name','face_id','path'])
+    df2 = df1.append(temp,ignore_index=True)
     print(df2)
     df2.to_csv("C:/Users/CNH/PycharmProjects/untitled1/test_file.csv", index= False)
 
