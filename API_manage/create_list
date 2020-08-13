@@ -1,0 +1,21 @@
+import pandas as pd
+import os
+from pandas import DataFrame as df
+from azure.cognitiveservices.vision.face import FaceClient
+from msrest.authentication import CognitiveServicesCredentials
+from azure.cognitiveservices.vision.face.models import TrainingStatusType, Person, SnapshotObjectType, OperationStatusType
+
+
+KEY = os.environ['FACE_SUBSCRIPTION_KEY']
+ENDPOINT = os.environ['FACE_ENDPOINT']
+face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
+
+face_client.face_list.create(face_list_id= 내가 설정하고픈 id , name = 'testing', recognition_model= 'recognition_03')
+single_face_image_path = "C:/Users/CNH/PycharmProjects/untitled1/images/11.jpg"
+single_image_name = os.path.basename(single_face_image_path)
+image_name_1 = open(single_face_image_path, 'rb')
+face_client.face_list.add_face_from_stream(face_list_id='api_list',image=image_name_1)
+
+A = face_client.face_list.get(face_list_id='api_list')
+for i in range (len(A.persisted_faces)) :
+    print(A.persisted_faces[i].persisted_face_id)
