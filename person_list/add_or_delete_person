@@ -44,13 +44,12 @@ def delete_person_from_list(index):
     face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
     df1 = pd.read_csv('test_file.csv')
     del_face_id = df1.loc[index,"face_id"]
+    print(del_face_id)
     face_client.face_list.delete_face(face_list_id='test_list',
-                                     persisted_face_id=del_face_id)
-                                     
-   
-    #A = face_client.face_list.get(face_list_id='test_list')
-    #for i in range (len(A.persisted_faces)) :
-        #print(A.persisted_faces[i].persisted_face_id)
-    #df2 = df1.drop(index)
-    #print(df2)
-    #df2.to_csv("C:/Users/CNH/PycharmProjects/untitled1/test_file.csv", index=False)
+                                      persisted_face_id=del_face_id)
+    A = face_client.face_list.get(face_list_id='test_list')
+    for i in range (len(A.persisted_faces)) :
+        print(A.persisted_faces[i].persisted_face_id)
+    df2 = df1.drop(index)
+    print(df2)
+    df2.to_csv("C:/Users/CNH/PycharmProjects/untitled1/test_file.csv", index=False)
