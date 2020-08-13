@@ -1,0 +1,19 @@
+import os
+import pandas as pd
+import signal
+import asyncio
+import io
+import sys
+from azure.cognitiveservices.vision.face import FaceClient
+from msrest.authentication import CognitiveServicesCredentials
+from azure.cognitiveservices.vision.face.models import TrainingStatusType, Person, SnapshotObjectType, \
+    OperationStatusType
+
+KEY = os.environ['FACE_SUBSCRIPTION_KEY']
+ENDPOINT = os.environ['FACE_ENDPOINT']
+face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
+
+face_client.face_list.delete_face(face_list_id='test_list',persisted_face_id=해당 id )
+A = face_client.face_list.get(face_list_id='test_list')
+for i in range (len(A.persisted_faces)) :
+    print(A.persisted_faces[i].persisted_face_id)
