@@ -19,9 +19,7 @@ from azure.cognitiveservices.vision.face import FaceClient
 from msrest.authentication import CognitiveServicesCredentials
 from azure.cognitiveservices.vision.face.models import TrainingStatusType, Person, SnapshotObjectType, \
     OperationStatusType
-import pandas as pd
-import os
-import datetime
+
 def logging(persisted_face_id):
         #df1은 설정값을 읽어와야함. 안찾는 친구는 굳이 반복문 돌릴 필요 없으니까
     df1 = pd.read_csv('./data/person_list.csv')
