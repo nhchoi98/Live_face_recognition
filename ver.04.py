@@ -24,14 +24,14 @@ import os
 import datetime
 def logging(persisted_face_id):
         #df1은 설정값을 읽어와야함. 안찾는 친구는 굳이 반복문 돌릴 필요 없으니까
-    df1 = pd.read_csv('person_list.csv')
+    df1 = pd.read_csv('./data/person_list.csv')
     df2 = df1.loc[df1['face_id'] == persisted_face_id]
 
     if(df2.empty):
      print("그런사람 없어요.")
 
     elif(df2.empty == False ):
-     log_file = pd.read_csv('log_file.csv')
+     log_file = pd.read_csv('./data/log_file.csv')
      temp = df2.copy(deep = True)
      time = datetime.datetime.now()
      now = time.strftime('%Y-%m-%d %H:%M:%S')
