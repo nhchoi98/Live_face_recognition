@@ -188,7 +188,7 @@ while True:
 
                 elif flag == True:
                     print("저장")
-                    merged.save(path + 'mnist_merged' + str(int(count/(set_num-1))) + ".jpg")
+                    merged.save(path + 'mnist_merged' + str(int(count_1+1)) + ".jpg")
                     merged = Image.new('L', (200 * set_num, 200 * 1))
                     print("생성, flag = true")
                     API_CALL()
@@ -203,10 +203,10 @@ while True:
                 if(now_time != temp_now_time):
                     merged.paste(im0, (200 * (count % set_num), 0))
                     now_time = temp_now_time
-                    count = (count/set_num) +1
+                    count += (count/set_num) +1
                     count_1+= 1
                     print("저장")
-                    merged.save(path + 'mnist_merged' + str(int(count/(set_num-1))) + ".jpg")
+                    merged.save(path + 'mnist_merged' + str(int(count_1) + ".jpg")
                     API_CALL()
                     flag = False
                 elif(now_time == temp_now_time):
