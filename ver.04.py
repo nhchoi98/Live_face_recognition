@@ -41,7 +41,7 @@ def logging(persisted_face_id):
 #함수정의 시작
 def API_CALL():
     path = "./outputs/"
-    multi_face_image_path = path + 'mnist_merged' + str(int(count / (set_num - 1))) + ".jpg"
+    multi_face_image_path = path + 'mnist_merged' + str(int(count_1)) + ".jpg"
     multi_image_name = os.path.basename(multi_face_image_path)
     image_name_2 = open(multi_face_image_path, 'rb')
     detected_faces2 = face_client.face.detect_with_stream(image=image_name_2, return_face_id=True,
@@ -53,7 +53,7 @@ def API_CALL():
             print("발견"+face.face_id)
             similar_faces = face_client.face.find_similar(face_id=face.face_id,
                                                           face_list_id='api_list')
-            # 의미없는 반복문이긴 하나, SIMILAR_FACE가 없는 경우를 위해서 만듬. 
+            # 의미없는 반복문이긴 하나, SIMILAR_FACE가 없는 경우를 위해서 만듬.
             for i in similar_faces:
                 #log 기록하는 csv 파일 열기 , list 포함하고있는 파일도 열기
                 if (similar_faces[0].confidence > 0.6):
@@ -188,7 +188,7 @@ while True:
 
                 elif flag == True:
                     print("저장")
-                    merged.save(path + 'mnist_merged' + str(int(count_1+1)) + ".jpg")
+                    merged.save(path + 'mnist_merged' + str(int(count_1)) + ".jpg")
                     merged = Image.new('L', (200 * set_num, 200 * 1))
                     print("생성, flag = true")
                     API_CALL()
@@ -203,18 +203,17 @@ while True:
                 if(now_time != temp_now_time):
                     merged.paste(im0, (200 * (count % set_num), 0))
                     now_time = temp_now_time
-                    count += (count/set_num) +1
+                    count += int((count/set_num)) +1
                     count_1+= 1
                     print("저장")
-                    merged.save(path + 'mnist_merged' + str(int(count_1) + ".jpg")
+                    merged.save(path + 'mnist_merged' + str(int(count_1)) + ".jpg")
                     API_CALL()
                     flag = False
+
                 elif(now_time == temp_now_time):
                     count_1 += 1
                     count += 1
                     merged.paste(im0, (200 * (count % set_num), 0))
-
-
             #시간 계속 계산해서 1초 넘어가면 자르고 그냥 API 넘겨버리게 하기.
 
 
