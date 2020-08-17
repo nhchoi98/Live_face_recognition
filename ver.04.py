@@ -209,6 +209,9 @@ while True:
                     merged.save(path + 'mnist_merged' + str(int(count/(set_num-1))) + ".jpg")
                     API_CALL()
                     flag = False
+                elif(now_time == temp_now_time):
+                    count_1 += 1
+                    count += 1
 
 
             #시간 계속 계산해서 1초 넘어가면 자르고 그냥 API 넘겨버리게 하기.
