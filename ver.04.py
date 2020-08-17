@@ -203,7 +203,7 @@ while True:
                 if(now_time != temp_now_time):
                     merged.paste(im0, (200 * (count % set_num), 0))
                     now_time = temp_now_time
-                    count+= set_num-(count%set_num)
+                    count = (count/set_num) +1
                     count_1+= 1
                     print("저장")
                     merged.save(path + 'mnist_merged' + str(int(count/(set_num-1))) + ".jpg")
