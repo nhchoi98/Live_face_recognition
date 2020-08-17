@@ -212,6 +212,7 @@ while True:
                 elif(now_time == temp_now_time):
                     count_1 += 1
                     count += 1
+                    merged.paste(im0, (200 * (count % set_num), 0))
 
 
             #시간 계속 계산해서 1초 넘어가면 자르고 그냥 API 넘겨버리게 하기.
