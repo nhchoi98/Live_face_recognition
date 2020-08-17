@@ -20,6 +20,7 @@ from msrest.authentication import CognitiveServicesCredentials
 from azure.cognitiveservices.vision.face.models import TrainingStatusType, Person, SnapshotObjectType, \
     OperationStatusType
 
+
 def logging(persisted_face_id):
         #df1은 설정값을 읽어와야함. 안찾는 친구는 굳이 반복문 돌릴 필요 없으니까
     df1 = pd.read_csv('./data/person_list.csv')
@@ -94,7 +95,8 @@ face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
 # 3-2 Save this ID to use in Find Similar -> 이 코드는 id 한개만 저장
 
 # 4. load video
-cap = cv2.VideoCapture('./123.mp4')
+cap = cv2.VideoCapture(0)
+#cap = cv2.VideoCapture('./videos/test.mp4')
 cv2.dnn.DNN_TARGET_OPENCL
 
 #flag의 용도: flag는 처음 영상 시작시 합쳐지는 파일이 만들어지는 규칙의 예외이기 때문에 설정해줌.
@@ -129,6 +131,7 @@ while True:
     class_ids = []
     confidences = []
     boxes = []
+
     for out in outs:
         for detection in out:
             scores = detection[5:]
@@ -155,28 +158,24 @@ while True:
 
     # print(indexes) 이런거 저장됏다고 보여주는 구문
     font = cv2.FONT_HERSHEY_PLAIN
+    if not boxes:
+        if flag == True:
+            print("저장,없어서")
+            merged.save(path + 'mnist_merged' + str(int(count_1)) + ".jpg")
+            API_CALL()
+            count = 0
+            flag = False
+
     for i in range(len(boxes)):
         if i in indexes:
             x, y, w, h = boxes[i]
-            # 박스 태그 (지우고 돌릴 것)
-            # label = str(count)
-            # 파일 이름
             name = str(count_1) + ".jpg"
-            # print(label, "(", x, y, ")", ",", "(", x + w, y + h, ")")
-            color = colors[i]
-            # cv2.rectangle(frame, (x, y), (x + w, y + h), color, 2)
-            # cv2.putText(frame, label, (x, y + 30), font, 1, color, 1)
-
-            # 얼굴 자른 후 outputs 폴더에 저장
             faceimg = frame[y - 10:y + h + 10, x - 10:x + w + 10]
             if not faceimg.any():
                 continue
             faceimg = cv2.resize(faceimg, dsize=(200, 200), interpolation=cv2.INTER_CUBIC)
-            # cv2.imshow("linear", faceimg)
-            # cv2.waitKey(0)
             cv2.destroyAllWindows()
             cv2.imwrite(path + name, faceimg)
-            # cv2.imshow("Image", frame)
             print(count_1)
             im0 = Image.open(path + name)
 
@@ -184,7 +183,7 @@ while True:
                 if flag == False:
                     merged = Image.new('L', (200 * set_num, 200 * 1))
                     flag = True
-                    print("생성")
+                    print("생성,flag = false")
 
                 elif flag == True:
                     print("저장")
@@ -193,27 +192,12 @@ while True:
                     print("생성, flag = true")
                     API_CALL()
 
-                merged.paste(im0, (200 * (count % set_num), 0))
-                count += 1
-                count_1 += 1
 
-            elif count % set_num != 0:
-                temp_time = datetime.datetime.now()
-                temp_now_time = temp_time.strftime('%Y-%m-%d %H:%M:%S')
-                if(now_time != temp_now_time):
-                    merged.paste(im0, (200 * (count % set_num), 0))
-                    now_time = temp_now_time
-                    count += int((count/set_num)) +1
-                    count_1+= 1
-                    print("저장")
-                    merged.save(path + 'mnist_merged' + str(int(count_1)) + ".jpg")
-                    API_CALL()
-                    flag = False
+            merged.paste(im0, (200 * (count % set_num), 0))
+            count += 1
+            count_1 += 1
 
-                elif(now_time == temp_now_time):
-                    count_1 += 1
-                    count += 1
-                    merged.paste(im0, (200 * (count % set_num), 0))
+
             #시간 계속 계산해서 1초 넘어가면 자르고 그냥 API 넘겨버리게 하기.
 
 
