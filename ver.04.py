@@ -95,6 +95,8 @@ face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
 # 3-2 Save this ID to use in Find Similar -> 이 코드는 id 한개만 저장
 
 # 4. load video
+#cap = cv2.VideoCapture("rtsp://admin:@!admin12@192.168.0.108:554/profile2/media.smp")
+# ip cctv를 쓰고 싶을경우, rtsp protocol을 이용해서 사용할 것! 
 cap = cv2.VideoCapture(0)
 #cap = cv2.VideoCapture('./videos/test.mp4')
 cv2.dnn.DNN_TARGET_OPENCL
