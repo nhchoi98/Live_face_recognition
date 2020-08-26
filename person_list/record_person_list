@@ -1,0 +1,17 @@
+import pandas as pd
+from pandas import DataFrame as df
+import os
+
+df1 = pd.read_csv('person_list.csv')
+temp1= df1.copy(deep=True)
+temp1["flag"] = False
+# 1. 원본 파일을 깊은 복사, 새 column(flag)를 만들어 우선 모든값을을 false 로 초기화
+#-------------------------------------------------------#
+# 이 부분에 클릭하면 flag를 true로 만들어 주는 작업(함수구성)이 필요함
+# ex) exec-> df1.set_value[index값, "flag", True] 여기서는 index값만 프로그램이 리턴해주게 하면됨
+temp2 = temp1.loc[temp1['flag'] == False]
+del temp2["flag"]
+
+
+#2. 기존의 personlist와 똑같은 형태로 임시 csv 파일 저장. 
+
