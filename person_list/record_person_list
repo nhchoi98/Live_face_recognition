@@ -14,4 +14,4 @@ del temp2["flag"]
 
 
 #2. 기존의 personlist와 똑같은 형태로 임시 csv 파일 저장. 
-
+temp2.to_csv("C:/Users/CNH/PycharmProjects/untitled1/find_personlist_record.csv", index= False)
