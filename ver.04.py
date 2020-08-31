@@ -20,7 +20,6 @@ from msrest.authentication import CognitiveServicesCredentials
 from azure.cognitiveservices.vision.face.models import TrainingStatusType, Person, SnapshotObjectType, \
     OperationStatusType
 
-
 def logging(persisted_face_id):
         #df1은 설정값을 읽어와야함. 안찾는 친구는 굳이 반복문 돌릴 필요 없으니까
     df1 = pd.read_csv('./data/person_list.csv')
@@ -75,6 +74,10 @@ ENDPOINT = os.environ['FACE_ENDPOINT']
 
 # 2. Load Yolo( yolo 알고리즘 동작에 필요한 weight 파일들을 불러옴)
 net = cv2.dnn.readNet("./data/weights/yolov3-wider_16000.weights", "./data/cfg/yolov3-face.cfg")
+
+# GPU 가속을 원하면 여기 밑 두줄 주석 해제! 
+#net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
+#net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
 classes = []
 with open("./data/names/coco.names", "r") as f:
     classes = [line.strip() for line in f.readlines()]
