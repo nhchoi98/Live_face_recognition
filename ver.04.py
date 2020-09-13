@@ -99,6 +99,7 @@ face_client = FaceClient(ENDPOINT, CognitiveServicesCredentials(KEY))
 
 # 4. load video
 #cap = cv2.VideoCapture("rtsp://admin:@!admin12@192.168.0.108:554/profile2/media.smp")
+# cctv ip 주소의 경우, 사용자에게서 입력받아 서버의 데이터에서 할당받을수 있게함. 
 # ip cctv를 쓰고 싶을경우, rtsp protocol을 이용해서 사용할 것! 
 # 터미널 이용해서 작동할시, videoCapture 뒤에 cv2.CAP_V4L ) 
 cap = cv2.VideoCapture(0)
