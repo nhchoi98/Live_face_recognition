@@ -1,0 +1,13 @@
+import datetime
+import pandas as pd
+
+record_log_file =  pd.read_csv('./data/record_log.csv')
+time = datetime.datetime.now()
+now = time.strftime('%Y-%m-%d %H:%M:%S')
+# ms 단위는 없애주기 위해 String type의 now 변수를 선언해줌.
+# 마지막 행을 참조하여 시간을 참조함.
+print(record_log_file.last_valid_index())
+temp_pf = record_log_file.tail(1)
+#print(temp_pf)
+print(temp_pf.loc[record_log_file.last_valid_index()].at['Time'])
+#old_time = temp_pf.at[0,'Time']
